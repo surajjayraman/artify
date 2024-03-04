@@ -1,8 +1,26 @@
 "use client";
 import "@styles/Register.scss";
+import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
+  const [formData, setFormData] = useState({
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    profileImage: "",
+  });
+
+  const [passwordMatch, setPasswordMatch] = useState(true);
+
+  useEffect(() => {
+    formData.password === formData.confirmPassword ||
+    formData.confirmPassword === ""
+      ? setPasswordMatch(true)
+      : setPasswordMatch(false);
+  }, [formData.password, formData.confirmPassword]);
+
   return (
     <div className="register">
       <img
