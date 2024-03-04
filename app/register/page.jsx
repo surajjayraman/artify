@@ -5,7 +5,11 @@ import { FcGoogle } from "react-icons/fc";
 const Register = () => {
   return (
     <div className="register">
-      <img src="/assets/register.jpg" alt="register" className="register_decor" />
+      <img
+        src="/assets/register.jpg"
+        alt="register"
+        className="register_decor"
+      />
       <div className="register_content">
         <form className="register_content_form">
           <input type="text" placeholder="Username" name="username" required />
@@ -27,7 +31,7 @@ const Register = () => {
             type="file"
             name="profileImage"
             accept="image/*"
-            style={{display: "none"}}
+            style={{ display: "none" }}
             required
           />
           <label htmlFor="image">
@@ -36,7 +40,7 @@ const Register = () => {
           </label>
           <button type="submit">Register</button>
         </form>
-        <button className="google" type="button" onClick={()=> {}}>
+        <button className="google" type="button" onClick={() => {}}>
           <p>Log In with Google</p>
           <FcGoogle />
         </button>
