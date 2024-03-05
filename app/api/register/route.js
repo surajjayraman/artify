@@ -1,15 +1,16 @@
-import { connectToDB } from "@mongodb/database";
-import { User } from "@models/User";
+import { connectToDatabase } from "@mongodb/database";
+import User from "@models/User";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
+import { hash } from "bcryptjs";
 import { writeFile } from "fs/promises";
 
 // user register
 export async function POST(req) {
   try {
     // connect to database
-    await connectToDB();
-    const data = req.formData();
+    await connectToDatabase();
+
+    const data = await req.formData();
     // extract data from form
 
     const username = data.get("username");
@@ -24,7 +25,7 @@ export async function POST(req) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const profileImagePath = `/public/uploads/${file.name}`;
+    const profileImagePath = `/Users/lighthouse/artify/public/uploads/${file.name}`;
     await writeFile(profileImagePath, buffer);
     console.log(`open ${profileImagePath} to see the uploaded image`);
 
@@ -36,8 +37,8 @@ export async function POST(req) {
     }
 
     // hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const saltRounds = 10;
+    const hashedPassword = await hash(password, saltRounds);
 
     // create new user
     const newUser = new User({
