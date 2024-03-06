@@ -33,7 +33,7 @@ const Register = () => {
     }));
   };
 
-  console.log(`Form data: ${JSON.stringify(formData)}`);
+  // console.log(`Form data: ${JSON.stringify(formData)}`);
 
   // handle form submission
   const handleSubmit = async (e) => {
@@ -50,7 +50,7 @@ const Register = () => {
       });
 
       if (response.ok) {
-        router.push("/");
+        router.push("/login");
       }
     } catch (err) {
       console.log("Registration failed!", err.message);
@@ -129,11 +129,7 @@ const Register = () => {
             Register
           </button>
         </form>
-        <button
-          className="google"
-          type="button"
-          onClick={loginWithGoogle}
-        >
+        <button className="google" type="button" onClick={loginWithGoogle}>
           <p>Log In with Google</p>
           <FcGoogle />
         </button>
