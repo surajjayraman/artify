@@ -28,13 +28,13 @@ const handler = NextAuth({
       if (account.provider === "google") {
         //connect to database
         try {
-          await connectToDatabase(process.env.MONGO_URL);
+          await connectToDatabase();
           let user = await User.findOne({ email: profile.email });
           if (!user) {
             user = await User.create({
               email: profile.email,
               username: profile.name,
-              profileImagePath: profile.image,
+              profileImagePath: profile.picture,
               wishlist: [],
               cart: [],
               order: [],
@@ -43,7 +43,7 @@ const handler = NextAuth({
           }
           return user;
         } catch (error) {
-          console.log(`Error checking if user exists: $error.message`);
+          console.log(`Error checking if user exists: ${error.message}`);
         }
       }
     },

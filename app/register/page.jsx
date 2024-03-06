@@ -1,5 +1,6 @@
 "use client";
 import "@styles/Register.scss";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
@@ -54,6 +55,10 @@ const Register = () => {
     } catch (err) {
       console.log("Registration failed!", err.message);
     }
+  };
+
+  const loginWithGoogle = () => {
+    signIn("google", { callbackUrl: "/" });
   };
 
   return (
@@ -124,7 +129,11 @@ const Register = () => {
             Register
           </button>
         </form>
-        <button className="google" type="button" onClick={() => {}}>
+        <button
+          className="google"
+          type="button"
+          onClick={loginWithGoogle}
+        >
           <p>Log In with Google</p>
           <FcGoogle />
         </button>
