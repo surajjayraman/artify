@@ -18,10 +18,13 @@ const Login = () => {
     login_form.append("email", email);
     login_form.append("password", password);
     try {
-      const response = await fetch("/api/login/", {
-        method: "POST",
-        body: login_form,
+      const response = await signIn("credentials", {
+        redirect: false,
+        email,
+          password,
+        callbackUrl: "/",
       });
+
       if (response.ok) {
         console.log("Login successful!");
       }
@@ -37,7 +40,7 @@ const Login = () => {
     <div className="login">
       <img src="/assets/login.jpg" alt="login" className="login_decor"></img>
       <div className="login_content">
-        <form className="login_content_form">
+        <form className="login_content_form" onSubmit={handleSubmit}>
           <input
             type="email"
             placeholder="Email"

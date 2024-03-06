@@ -2,6 +2,9 @@ import User from "@models/User";
 import { connectToDatabase } from "@mongodb/database";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import Error from "next/error";
+import { compare } from "bcryptjs";
 
 const handler = NextAuth({
   providers: [
@@ -16,7 +19,28 @@ const handler = NextAuth({
         },
       },
     }),
+    CredentialsProvider({
+      name: "Credentials",
+      async authorize(credentials, req) {
+        try {
+          await connectToDatabase();
+          const user = await User.findOne({ email: credentials.email });
+          if (!user) {
+            throw new Error("Invalid email or password");
+          }
+          // check if password is correct
+          const isMatch = await compare(credentials.password, user.password);
+          if (!isMatch) {
+            throw new Error("Invalid email or password");
+          }
+          return { email: user.email };
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      },
+    }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session }) {
       const sessionUser = User.findOne({ email: session.user.email });
