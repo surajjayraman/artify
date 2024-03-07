@@ -1,4 +1,6 @@
 import { categories } from "@data";
+import { IoIosImages } from "react-icons/io";
+import "@styles/Form.scss";
 
 const Form = ({ type, work, setWork }) => {
   const handleUploadPhotos = (e) => {
@@ -17,19 +19,21 @@ const Form = ({ type, work, setWork }) => {
         <h3>Add some photos of your work</h3>
         {work.photos.length < 1 && (
           <>
-                      <input
-                          id="image"
+            <input
+              id="image"
               type="file"
               style={{ display: "none" }}
               accept="image/*"
               onChange={handleUploadPhotos}
               mutiple
             />
-                      <label htmlFor="image">
-                          <div className="icon">
-                              
-                          </div>
-          </label>
+            <label htmlFor="image">
+              <div className="icon">
+                <IoIosImages />
+              </div>
+              <p>Upload from your device</p>
+            </label>
+          </>
         )}
       </form>
     </div>
