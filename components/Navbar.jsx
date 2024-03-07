@@ -1,8 +1,10 @@
-import '@styles/Navbar.scss'
+import "@styles/Navbar.scss";
 const Navbar = () => {
   return (
-    <div>Navbar</div>
-  )
-}
+    <div className="navbar">
+      <img src="/assets/logo.png" alt="logo" />
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;
