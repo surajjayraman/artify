@@ -7,7 +7,7 @@ const EditWork = () => {
   return (
     <>
       <Navbar />
-      <Form type="Create" work={work} setWork={setWork} />
+      <Form type="Edit" work={work} setWork={setWork} />
     </>
   );
 };
