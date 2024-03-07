@@ -1,9 +1,16 @@
-import React from 'react'
+"use client";
+import React from "react";
 
 const CreateWork = () => {
-  return (
-    <div>Sell Your Work</div>
-  )
-}
+  const [work, setWork] = useState({
+    creator: "",
+    category: "",
+    title: "",
+    description: "",
+    price: "",
+    photos: [],
+  });
+  return <div>Sell Your Work</div>;
+};
 
-export default CreateWork
+export default CreateWork;
