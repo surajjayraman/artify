@@ -3,15 +3,7 @@ import React, { useState } from "react";
 import Form from "@components/Form";
 import Navbar from "@components/Navbar";
 
-const CreateWork = () => {
-  const [work, setWork] = useState({
-    creator: "",
-    category: "",
-    title: "",
-    description: "",
-    price: "",
-    photos: [],
-  });
+const EditWork = () => {
   return (
     <>
       <Navbar />
@@ -20,4 +12,4 @@ const CreateWork = () => {
   );
 };
 
-export default CreateWork;
+export default EditWork;
