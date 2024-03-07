@@ -1,5 +1,5 @@
 "use client";
-import { Menu, Person, Search } from "@mui/icons-material";
+import { Menu, Person, Search, ShoppingCart } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import "@styles/Navbar.scss";
 import { useSession } from "next-auth/react";
@@ -10,6 +10,8 @@ const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
   const [dropDownMenu, setDropDownMenu] = useState(false);
+
+  console.log(`user: ${JSON.stringify(user)}`);
   return (
     <div className="navbar">
       <a href="/">
@@ -22,6 +24,12 @@ const Navbar = () => {
         </IconButton>
       </div>
       <div className="navbar_right">
+        {user && (
+          <a href="/cart" className="cart">
+            <ShoppingCart sx={{ color: "grey" }} />
+            Cart <span>{2}</span>
+          </a>
+        )}
         <button
           className="navbar_right_account"
           onClick={() => setDropDownMenu(!dropDownMenu)}
@@ -41,6 +49,16 @@ const Navbar = () => {
           <div className="navbar_right_accountmenu">
             <Link href="/login">Log In </Link>
             <Link href="/register">Sign Up</Link>
+          </div>
+        )}
+        {dropDownMenu && user && (
+          <div className="navbar_right_accountmenu">
+            <Link href="/wishlist">Wishlist </Link>
+            <Link href="/cart">Cart</Link>
+            <Link href="/order">Order</Link>
+            <Link href="/shop">Your Shop</Link>
+            <Link href="/create-work">Sell Your Work</Link>
+            <a href="">Log Out</a>
           </div>
         )}
       </div>
