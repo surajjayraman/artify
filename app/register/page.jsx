@@ -33,8 +33,6 @@ const Register = () => {
     }));
   };
 
-  // console.log(`Form data: ${JSON.stringify(formData)}`);
-
   // handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();

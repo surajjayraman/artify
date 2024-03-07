@@ -3,7 +3,6 @@ import { connectToDatabase } from "@mongodb/database";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import Error from "next/error";
 import { compare } from "bcryptjs";
 
 const handler = NextAuth({
@@ -24,12 +23,13 @@ const handler = NextAuth({
       async authorize(credentials, req) {
         try {
           await connectToDatabase();
-          const user = await User.findOne({ email: credentials.email });
+          const { email, password } = credentials;
+          const user = await User.findOne({ email: email });
           if (!user) {
             throw new Error("Invalid email or password");
           }
           // check if password is correct
-          const isMatch = await compare(credentials.password, user.password);
+          const isMatch = await compare(password, user.password);
           if (!isMatch) {
             throw new Error("Invalid email or password");
           }
@@ -70,6 +70,7 @@ const handler = NextAuth({
           console.log(`Error checking if user exists: ${error.message}`);
         }
       }
+      return true;
     },
   },
 });

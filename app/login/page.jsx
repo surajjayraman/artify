@@ -1,11 +1,14 @@
 "use client";
 import "@styles/login.scss";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -14,19 +17,19 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const login_form = new FormData();
-    login_form.append("email", email);
-    login_form.append("password", password);
+
     try {
       const response = await signIn("credentials", {
         redirect: false,
         email,
-          password,
-        callbackUrl: "/",
+        password,
       });
 
       if (response.ok) {
-        console.log("Login successful!");
+        router.push("/");
+      }
+      if (response.error) {
+        setError("Invalid email or password. Please try again.");
       }
     } catch (err) {
       console.log("Login failed!", err.message);
@@ -57,6 +60,7 @@ const Login = () => {
             required
             onChange={handleChange}
           ></input>
+          {error && <p className="error">{error}</p>}
           <button type="submit">Log In</button>
         </form>
         <button type="button" onClick={loginWithGoogle} className="google">
