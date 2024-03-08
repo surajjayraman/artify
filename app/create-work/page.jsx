@@ -12,10 +12,16 @@ const CreateWork = () => {
     price: "",
     photos: [],
   });
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(work);
+    }
+
   return (
     <>
       <Navbar />
-      <Form type="Create" work={work} setWork={setWork} />
+      <Form type="Create" work={work} setWork={setWork} handleSubmit={handleSubmit} />
     </>
   );
 };

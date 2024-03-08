@@ -3,7 +3,7 @@ import { IoIosImages } from "react-icons/io";
 import { BiTrash } from "react-icons/bi";
 import "@styles/Form.scss";
 
-const Form = ({ type, work, setWork }) => {
+const Form = ({ type, work, setWork, handleSubmit }) => {
   const handleUploadPhotos = (e) => {
     const newPhotos = e.target.files;
     setWork({ ...work, photos: [...work.photos, ...newPhotos] });
@@ -24,7 +24,7 @@ const Form = ({ type, work, setWork }) => {
   return (
     <div className="form">
       <h1>{type} Your Work</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h3>Which of these categories best describes your work?</h3>
         <div className="category-list">
           {categories?.map((item, index) => (
@@ -98,8 +98,6 @@ const Form = ({ type, work, setWork }) => {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="description">
           <p>Description</p>
           <textarea
             name="description"
@@ -108,7 +106,21 @@ const Form = ({ type, work, setWork }) => {
             onChange={handleChange}
             required
           />
+          <p>Now, set your PRICE</p>
+          <span>$</span>
+          <input
+            type="number"
+            placeholder="Price"
+            onChange={handleChange}
+            name="price"
+            value={work.price}
+            required
+            className="price"
+          />
         </div>
+        <button className="submit_btn" type="submit">
+          PUBLISH YOUR WORK
+        </button>
       </form>
     </div>
   );
