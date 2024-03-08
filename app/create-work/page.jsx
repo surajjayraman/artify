@@ -23,7 +23,6 @@ const CreateWork = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(work);
     try {
       const newWorkForm = new FormData();
       for (let key in work) {
