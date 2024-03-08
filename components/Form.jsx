@@ -16,6 +16,11 @@ const Form = ({ type, work, setWork }) => {
     setWork({ ...work, photos: newPhotos });
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setWork({ ...work, [name]: value });
+  };
+
   return (
     <div className="form">
       <h1>{type} Your Work</h1>
@@ -82,6 +87,26 @@ const Form = ({ type, work, setWork }) => {
             </label>
           </div>
         )}
+        <h3>What makes your Work attractive?</h3>
+        <div className="description">
+          <p>Title</p>
+          <input
+            type="text"
+            name="title"
+            value={work.title}
+            placeholder="Title"
+            onChange={handleChange}
+            required
+          />
+          <textarea
+            type="text"
+            name="description"
+            value={work.description}
+            placeholder="Description"
+            onChange={handleChange}
+            required
+          />
+        </div>
       </form>
     </div>
   );
