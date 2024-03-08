@@ -22,3 +22,6 @@ const WorkSchema = new Schema(
   },
   { timestamps: true }
 );
+
+const Work = models.Work || model("Work", WorkSchema);
+export default Work;
