@@ -98,8 +98,10 @@ const Form = ({ type, work, setWork }) => {
             onChange={handleChange}
             required
           />
+        </div>
+        <div className="description">
+          <p>Description</p>
           <textarea
-            type="text"
             name="description"
             value={work.description}
             placeholder="Description"
