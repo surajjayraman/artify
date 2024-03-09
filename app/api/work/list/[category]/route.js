@@ -8,7 +8,7 @@ export const GET = async (req, { params }) => {
     const category = params;
     let workList;
     if (category !== "All") {
-      workList = await Work.find({ category }).populate("creator");
+      workList = await Work.find(category).populate("creator");
     } else {
       workList = await Work.find().populate("creator");
     }

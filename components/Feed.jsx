@@ -3,8 +3,7 @@ import { categories } from "@data"; // Import the categories array from the data
 import WorkList from "./WorkList";
 import { useEffect, useState } from "react";
 import "@styles/Categories.scss";
-import { get } from "mongoose";
-
+import Loader from "./Loader";
 const Feed = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [workList, setWorkList] = useState([]);
@@ -20,7 +19,9 @@ const Feed = () => {
     getWorkList();
   }, [selectedCategory]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <>
       <div className="categories">
         {categories?.map((item, index) => (
@@ -33,7 +34,7 @@ const Feed = () => {
           </p>
         ))}
       </div>
-      <WorkList />
+      <WorkList data={workList} />
     </>
   );
 };
