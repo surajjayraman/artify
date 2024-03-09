@@ -74,5 +74,53 @@ export const PATCH = async (req, { params }) => {
     existingWork.workPhotoPaths = workPhotoPaths;
 
     await existingWork.save();
-  } catch (error) {}
+    return NextResponse.json(
+      {
+        message: "Work updated successfully!",
+        work: existingWork,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      {
+        message: "Work update failed!",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+};
+
+export const DELETE = async (req, { params }) => {
+  try {
+    await connectToDatabase();
+    const work = await Work.findByIdAndDelete(params.id);
+    if (!work) {
+      return NextResponse.json({
+        status: 404,
+        body: {
+          message: "Work not found!",
+        },
+      });
+    }
+    return NextResponse.json({
+      status: 200,
+      body: {
+        message: "Work deleted successfully!",
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({
+      status: 500,
+      body: {
+        message: "Work deletion failed!",
+      },
+    });
+  }
 };
