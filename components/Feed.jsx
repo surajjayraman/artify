@@ -13,7 +13,7 @@ const Feed = () => {
     const getWorkList = async () => {
       const response = await fetch(`/api/work/list/${selectedCategory}`);
       const data = await response.json();
-      setWorkList(data);
+      setWorkList(data.body);
       setLoading(false);
     };
     getWorkList();
