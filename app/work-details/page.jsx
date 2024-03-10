@@ -1,10 +1,15 @@
 "use client";
 import Loader from "@components/Loader";
 import Navbar from "@components/Navbar";
-import { Edit, FavoriteBorder } from "@mui/icons-material";
+import {
+  ArrowBackIosNew,
+  ArrowForwardIos,
+  Edit,
+  FavoriteBorder,
+} from "@mui/icons-material";
 import "@styles/WorkDetails.scss";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 const WorkDetails = () => {
   const [loading, setLoading] = useState(true);
@@ -33,56 +38,82 @@ const WorkDetails = () => {
   const { data: session, update } = useSession();
 
   const userId = session?.user?._id;
+
+  // slider for work photos
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const router = useRouter();
+
+  const goToPrevSlide = (e) => {
+    if (currentIndex === 0) {
+      setCurrentIndex(work.workPhotoPaths.length - 1);
+    } else {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const goToNextSlide = (e) => {
+    if (currentIndex === work.workPhotoPaths.length - 1) {
+      setCurrentIndex(0);
+    } else {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  // show more photos
+  const [visiblePhotos, setVisiblePhotos] = useState(5);
+  const loadMorePhotos = () => {
+    setVisiblePhotos(work.workPhotoPaths.length);
+  };
   return loading ? (
     <Loader />
   ) : (
     <>
       <Navbar />
       <div className="work-details">
-        <div className="title"></div>
-        <h1>{work.title}</h1>
-        {work?.creator?._id === userId ? (
-          <div className="save">
-            <Edit />
-            <p>Edit</p>
-          </div>
-        ) : (
-          <div className="save">
-            <FavoriteBorder />
-            <p>Save</p>
-          </div>
-        )}
-      </div>
-      <div className="slider-container">
-        <div
-          className="slider"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {work.workPhotoPaths?.map((photo, index) => (
-            <div className="slide">
-              <img key={index} src={photo} alt={work.title} />
-              <div className="prev-button" onClick={(e) => goToPrevSlide(e)}>
-                <ArrowBackIosNew sx={{ fontSize: "15px" }} />
-              </div>
-              <div className="next-button" onClick={(e) => goToNextSlide(e)}>
-                <ArrowForwardIos sx={{ fontSize: "15px" }} />
-              </div>
+        <div className="title">
+          <h1>{work.title}</h1>
+          {work?.creator?._id === userId ? (
+            <div className="save">
+              <Edit />
+              <p>Edit</p>
             </div>
-          ))}
+          ) : (
+            <div className="save">
+              <FavoriteBorder />
+              <p>Save</p>
+            </div>
+          )}
         </div>
-      </div>
-      <div className="info">
-        <div>
-          <h3>{work.title}</h3>
-          <div className="creator">
-            <img src={work.creator?.profileImagePath} alt="creator" />
-            <span>{work.creator?.username}</span> in{" "}
-            <span>{work.category}</span>
+
+        <div className="slider-container">
+          <div
+            className="slider"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {work.workPhotoPaths?.map((photo, index) => (
+              <div className="slide">
+                <img key={index} src={photo} alt={work.title} />
+                <div className="prev-button" onClick={(e) => goToPrevSlide(e)}>
+                  <ArrowBackIosNew sx={{ fontSize: "15px" }} />
+                </div>
+                <div className="next-button" onClick={(e) => goToNextSlide(e)}>
+                  <ArrowForwardIos sx={{ fontSize: "15px" }} />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="price">
-          <span>$</span>
-          {work.price}
+        <div className="photos">
+          {work.workPhotoPaths?.slice(0, visiblePhotos).map((photo, index) => (
+            <img key={index} src={photo} alt="work-demo" />
+          ))}
+          {visiblePhotos < work.workPhotoPaths.length && (
+            <div className="show-more" onClick={loadMorePhotos}>
+              <ArrowForwardIos sx={{ fontSize: "40px" }} />
+              Show More
+            </div>
+          )}
         </div>
       </div>
     </>
