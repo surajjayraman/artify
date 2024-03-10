@@ -6,6 +6,7 @@ import {
   ArrowForwardIos,
   Edit,
   FavoriteBorder,
+  ShoppingCart,
 } from "@mui/icons-material";
 import "@styles/WorkDetails.scss";
 import { useSession } from "next-auth/react";
@@ -65,6 +66,12 @@ const WorkDetails = () => {
   const loadMorePhotos = () => {
     setVisiblePhotos(work.workPhotoPaths.length);
   };
+
+  // select demo photo
+  const selectDemoPhoto = (photo) => {
+    setCurrentIndex(work.workPhotoPaths.indexOf(photo));
+  };
+
   return loading ? (
     <Loader />
   ) : (
@@ -106,7 +113,17 @@ const WorkDetails = () => {
         </div>
         <div className="photos">
           {work.workPhotoPaths?.slice(0, visiblePhotos).map((photo, index) => (
-            <img key={index} src={photo} alt="work-demo" />
+            <img
+              key={index}
+              src={photo}
+              alt="work-demo"
+              onClick={() => selectDemoPhoto(photo)}
+              className={`${
+                currentIndex === work.workPhotoPaths.indexOf(photo)
+                  ? "selected"
+                  : ""
+              }`}
+            />
           ))}
           {visiblePhotos < work.workPhotoPaths.length && (
             <div className="show-more" onClick={loadMorePhotos}>
@@ -115,6 +132,19 @@ const WorkDetails = () => {
             </div>
           )}
         </div>
+        <hr />
+        <div className="profile">
+          <img src={work.creator?.profileImagePath} alt="profile" />
+          <h3>Created by {work.creator.username}</h3>
+        </div>
+        <hr />
+        <h3>About this product</h3>
+        <p>{work.description}</p>
+        <h1>${work.price}</h1>
+        <button type="submit">
+          <ShoppingCart />
+          ADD TO CART
+        </button>
       </div>
     </>
   );
