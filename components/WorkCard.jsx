@@ -1,8 +1,10 @@
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import "@styles/WorkCard.scss";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 const WorkCard = ({ work }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const router = useRouter();
 
   const goToPrevSlide = (e) => {
     if (currentIndex === 0) {
@@ -20,7 +22,10 @@ const WorkCard = ({ work }) => {
     }
   };
   return (
-    <div className="work-card">
+    <div
+      className="work-card"
+      onClick={() => router.push(`/work-details?id=${work._id}`)}
+    >
       <div className="slider-container">
         <div
           className="slider"
@@ -49,7 +54,8 @@ const WorkCard = ({ work }) => {
           </div>
         </div>
         <div className="price">
-          <span>$</span>{work.price}
+          <span>$</span>
+          {work.price}
         </div>
       </div>
     </div>
