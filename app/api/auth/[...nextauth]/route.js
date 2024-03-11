@@ -60,10 +60,10 @@ const handler = NextAuth({
               email: profile.email,
               username: profile.name,
               profileImagePath: profile.picture,
-              wishlist: [],
+              wishList: [],
               cart: [],
-              order: [],
-              work: [],
+              orders: [],
+              works: [],
             });
           }
           return user;

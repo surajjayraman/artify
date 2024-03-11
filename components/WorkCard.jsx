@@ -13,7 +13,7 @@ const WorkCard = ({ work }) => {
   // slider for photos
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const loggedInUserId = session?.user?._id;
 
   const goToPrevSlide = (e) => {
@@ -47,6 +47,30 @@ const WorkCard = ({ work }) => {
       } catch (error) {
         console.error(error);
       }
+    }
+  };
+
+  // Add to wish list
+  const currentWishList = session?.user?.wishList;
+  const isLiked = currentWishList?.find((item) => item?._id === work._id);
+
+  const addToWishList = async (e) => {
+    e.stopPropagation();
+    try {
+      const response = await fetch(
+        `/api/user/${loggedInUserId}/wishlist/${work._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+      update({ user: { wishList: data.wishList } });
+    } catch (error) {
+      console.error(error);
     }
   };
   return (
@@ -112,15 +136,27 @@ const WorkCard = ({ work }) => {
           />
         </div>
       ) : (
-        <div className="icon">
-          <FavoriteBorder
-            sx={{
-              borderRadius: "50%",
-              backgroundColor: "white",
-              padding: "5px",
-              fontSize: "30px",
-            }}
-          />
+        <div className="icon" onClick={(e) => addToWishList(e)}>
+          {isLiked ? (
+            <Favorite
+              sx={{
+                borderRadius: "50%",
+                backgroundColor: "white",
+                color: "red",
+                padding: "5px",
+                fontSize: "30px",
+              }}
+            />
+          ) : (
+            <FavoriteBorder
+              sx={{
+                borderRadius: "50%",
+                backgroundColor: "white",
+                padding: "5px",
+                fontSize: "30px",
+              }}
+            />
+          )}
         </div>
       )}
     </div>
