@@ -1,7 +1,11 @@
 "use client";
+import Loader from "@components/Loader";
+import Navbar from "@components/Navbar";
+import WorkList from "@components/WorkList";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import "@styles/Shop.scss";
 
 const Shop = () => {
   const [loading, setLoading] = useState(true);
@@ -27,7 +31,16 @@ const Shop = () => {
     };
     getWorkList();
   }, [loggedInUserId]);
-  return <div>Shop</div>;
+
+  return loading ? (
+    <Loader />
+  ) : (
+    <>
+      <Navbar />
+      {loggedInUserId && <h1 className="title-list">Your Works</h1>}
+      <WorkList data={workList} />
+    </>
+  );
 };
 
 export default Shop;
