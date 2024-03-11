@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const CreateWork = () => {
   const [work, setWork] = useState({
     creator: "",
-    category: "",
+    category: "All",
     title: "",
     description: "",
     price: "",

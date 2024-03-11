@@ -1,4 +1,10 @@
-import { ArrowBackIosNew, ArrowForwardIos, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
+import {
+  ArrowBackIosNew,
+  ArrowForwardIos,
+  Delete,
+  Favorite,
+  FavoriteBorder,
+} from "@mui/icons-material";
 import "@styles/WorkCard.scss";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -36,7 +42,7 @@ const WorkCard = ({ work }) => {
           method: "DELETE",
         });
         if (res.status === 200) {
-          router.push("/shop");
+          window.location.reload();
         }
       } catch (error) {
         console.error(error);

@@ -2,7 +2,7 @@
 import { Menu, Person, Search, ShoppingCart } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import "@styles/Navbar.scss";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -10,6 +10,10 @@ const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
   const [dropDownMenu, setDropDownMenu] = useState(false);
+
+  const handleLogOut = async () => {
+    signOut({ callbackUrl: "/login" });
+  };
 
   console.log(`user: ${JSON.stringify(user)}`);
   return (
@@ -58,7 +62,7 @@ const Navbar = () => {
             <Link href="/order">Order</Link>
             <Link href="/shop">Your Shop</Link>
             <Link href="/create-work">Sell Your Work</Link>
-            <a href="">Log Out</a>
+            <a onClick={handleLogOut}>Log Out</a>
           </div>
         )}
       </div>
