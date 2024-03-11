@@ -34,10 +34,22 @@ const WorkCard = ({ work }) => {
           {work.workPhotoPaths?.map((photo, index) => (
             <div className="slide">
               <img key={index} src={photo} alt={work.title} />
-              <div className="prev-button" onClick={(e) => goToPrevSlide(e)}>
+              <div
+                className="prev-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToPrevSlide(e);
+                }}
+              >
                 <ArrowBackIosNew sx={{ fontSize: "15px" }} />
               </div>
-              <div className="next-button" onClick={(e) => goToNextSlide(e)}>
+              <div
+                className="next-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToNextSlide(e);
+                }}
+              >
                 <ArrowForwardIos sx={{ fontSize: "15px" }} />
               </div>
             </div>
