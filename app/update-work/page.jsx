@@ -1,13 +1,16 @@
 "use client";
+import Form from "@components/Form";
 import Loader from "@components/Loader";
 import Navbar from "@components/Navbar";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const UpdateWork = () => {
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const workId = searchParams.get("id");
+  const router = useRouter();
   const [work, setWork] = useState({
     category: "",
     title: "",
@@ -36,22 +39,22 @@ const UpdateWork = () => {
             setLoading(false);
           })
           .catch((error) => {
-            console.error("Update Work getWorkDetails failed:", error);
+            console.error("In Update Work - getWorkDetails failed:", error);
           });
       }
     };
     getWorkDetails();
   }, [workId]);
-    
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const updateWorkForm = new FormData();
       for (let key in work) {
-        newWorkForm.append(key, work[key]);
+        updateWorkForm.append(key, work[key]);
       }
       work.photos.forEach((photo) => {
-        newWorkForm.append("workPhotoPaths", photo);
+        updateWorkForm.append("workPhotoPaths", photo);
       });
       const response = await fetch(`/api/work/${workId}`, {
         method: "PATCH",
@@ -61,7 +64,7 @@ const UpdateWork = () => {
         router.push("/shop");
       }
     } catch (error) {
-      console.error(`Publish work failed: ${error.message}`);
+      console.error(`Updatework failed: ${error.message}`);
     }
   };
   return loading ? (

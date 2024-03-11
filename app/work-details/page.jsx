@@ -81,7 +81,10 @@ const WorkDetails = () => {
         <div className="title">
           <h1>{work.title}</h1>
           {work?.creator?._id === userId ? (
-            <div className="save">
+            <div
+              className="save"
+              onClick={() => router.push(`/update-work?id=${workId}`)}
+            >
               <Edit />
               <p>Edit</p>
             </div>
@@ -135,7 +138,7 @@ const WorkDetails = () => {
         <hr />
         <div className="profile">
           <img src={work.creator?.profileImagePath} alt="profile" />
-          <h3>Created by {work.creator.username}</h3>
+          <h3>Created by {work.creator?.username}</h3>
         </div>
         <hr />
         <h3>About this product</h3>

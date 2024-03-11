@@ -1,6 +1,7 @@
 import Work from "@models/Work";
 import { connectToDatabase } from "@mongodb/database";
 import { NextResponse } from "next/server";
+import { writeFile } from "fs/promises";
 
 export const GET = async (req, { params }) => {
   try {
@@ -66,7 +67,7 @@ export const PATCH = async (req, { params }) => {
       });
     }
     // update the work
-    existingWork.creator = creator;
+    // existingWork.creator = creator;
     existingWork.category = category;
     existingWork.title = title;
     existingWork.description = description;
