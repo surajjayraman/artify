@@ -46,7 +46,7 @@ const UpdateWork = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newWorkForm = new FormData();
+      const updateWorkForm = new FormData();
       for (let key in work) {
         newWorkForm.append(key, work[key]);
       }
@@ -55,7 +55,7 @@ const UpdateWork = () => {
       });
       const response = await fetch(`/api/work/${workId}`, {
         method: "PATCH",
-        body: newWorkForm,
+        body: updateWorkForm,
       });
       if (response.ok) {
         router.push("/shop");
