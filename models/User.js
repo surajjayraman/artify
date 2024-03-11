@@ -26,11 +26,11 @@ const UserSchema = new Schema({
     type: Array,
     default: [],
   },
-  order: {
+  orders: {
     type: Array,
     default: [],
   },
-  work: {
+  works: {
     type: Array,
     default: [],
   },
