@@ -5,10 +5,11 @@ import { NextResponse } from "next/server";
 export const GET = async (req, { params }) => {
   try {
     await connectToDatabase();
-    const category = params;
+    const category = params.category;
+    console.log(`Category: ${JSON.stringify(category)}`);
     let workList;
     if (category !== "All") {
-      workList = await Work.find(category).populate("creator");
+      workList = await Work.find({ category }).populate("creator");
     } else {
       workList = await Work.find().populate("creator");
     }
