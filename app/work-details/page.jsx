@@ -128,7 +128,7 @@ const WorkDetails = () => {
               }`}
             />
           ))}
-          {visiblePhotos < work.workPhotoPaths.length && (
+          {visiblePhotos < work.workPhotoPaths?.length && (
             <div className="show-more" onClick={loadMorePhotos}>
               <ArrowForwardIos sx={{ fontSize: "40px" }} />
               Show More
