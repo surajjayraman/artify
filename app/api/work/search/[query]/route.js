@@ -14,6 +14,7 @@ export const GET = async (req, { params }) => {
         $or: [
           { category: { $regex: query, $options: "i" } },
           { title: { $regex: query, $options: "i" } },
+          { description: { $regex: query, $options: "i" } },
         ],
       }).populate("creator");
     }
