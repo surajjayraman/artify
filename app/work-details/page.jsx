@@ -96,7 +96,7 @@ const WorkDetails = () => {
 
   // Add to cart
   const cart = session?.user?.cart;
-  const isInCart = cart?.find((item) => item?._id === workId);
+  const isInCart = cart?.find((item) => item?.workId === workId);
 
   const addToCart = async (e) => {
     const newCartItem = {
@@ -110,15 +110,15 @@ const WorkDetails = () => {
     };
     if (!isInCart) {
       try {
-        const response = await fetch(`/api/user/${userId}/cart`, {
+        const newCart = [...cart, newCartItem];
+        await fetch(`/api/user/${userId}/cart`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ cart: [...cart, newCartItem] }),
+          body: JSON.stringify({ cart: newCart }),
         });
-        const data = await response.json();
-        update({ user: { cart: data.cart } });
+        update({ user: { cart: newCart } });
       } catch (error) {
         console.error(error);
       }
