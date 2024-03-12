@@ -1,3 +1,6 @@
+import Loader from "@components/Loader";
+import Navbar from "@components/Navbar";
+import WorkList from "@components/WorkList";
 import { useParams } from "next/navigation";
 import React, { use, useState } from "react";
 
@@ -25,7 +28,14 @@ const SearchPage = () => {
     getWorkList();
   }, [query]);
 
-  return <div>SearchPage</div>;
+  return loading ? (
+    <Loader />
+  ) : (
+    <>
+      <Navbar />
+      <WorkList data={workList} />
+    </>
+  );
 };
 
 export default SearchPage;
