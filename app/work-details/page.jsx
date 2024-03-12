@@ -80,15 +80,12 @@ const WorkDetails = () => {
   const addToWishList = async (e) => {
     e.stopPropagation();
     try {
-      const response = await fetch(
-        `/api/user/${userId}/wishlist/${work._id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/api/user/${userId}/wishlist/${work._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const data = await response.json();
       update({ user: { wishList: data.wishList } });
@@ -99,6 +96,39 @@ const WorkDetails = () => {
 
   // Add to cart
   const cart = session?.user?.cart;
+  const isInCart = cart?.find((item) => item?._id === workId);
+
+  const addToCart = async (e) => {
+    const newCartItem = {
+      workId,
+      image: work.workPhotoPaths[0],
+      title: work.title,
+      category: work.category,
+      creator: work.creator,
+      price: work.price,
+      quantity: 1,
+    };
+    if (!isInCart) {
+      try {
+        const response = await fetch(`/api/user/${userId}/cart`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ cart: [...cart, newCartItem] }),
+        });
+        const data = await response.json();
+        update({ user: { cart: data.cart } });
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      confirm("This item is already in your cart");
+      return;
+    }
+  };
+
+  console.log(`User cart: ${JSON.stringify(cart)}`);
 
   return loading ? (
     <Loader />
@@ -191,7 +221,7 @@ const WorkDetails = () => {
         <h3>About this product</h3>
         <p>{work.description}</p>
         <h1>${work.price}</h1>
-        <button type="submit">
+        <button type="submit" onClick={addToCart}>
           <ShoppingCart />
           ADD TO CART
         </button>
