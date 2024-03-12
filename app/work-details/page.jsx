@@ -97,6 +97,9 @@ const WorkDetails = () => {
     }
   };
 
+  // Add to cart
+  const cart = session?.user?.cart;
+
   return loading ? (
     <Loader />
   ) : (
