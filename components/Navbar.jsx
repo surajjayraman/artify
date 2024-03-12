@@ -20,10 +20,10 @@ const Navbar = () => {
 
   console.log(`user: ${JSON.stringify(user)}`);
 
-  const searchWork = async (e) => {
-    e.preventDefault();
+  const searchWork = async () => {
+    // e.preventDefault();
     if (query) {
-      router.push(`/search/${query}`);
+      router.push(`/${query}`);
     }
   };
 
@@ -39,8 +39,8 @@ const Navbar = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <IconButton>
-          <Search sx={{ color: "red" }} onClick={(e) => searchWork(e)} />
+        <IconButton disabled={query === ""}>
+          <Search sx={{ color: "red" }} onClick={searchWork} />
         </IconButton>
       </div>
       <div className="navbar_right">

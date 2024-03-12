@@ -3,6 +3,7 @@ import { connectToDatabase } from "@mongodb/database";
 import { NextResponse } from "next/server";
 export const GET = async (req, { params }) => {
   try {
+    console.log(`Search params: ${JSON.stringify(params)}`);
     const { query } = params;
     await connectToDatabase();
     let works = [];
@@ -22,10 +23,11 @@ export const GET = async (req, { params }) => {
         body: { message: "No work found" },
       });
     }
-    return NextResponse.json({
-      status: 200,
-      body: { works },
-    });
+    // return NextResponse.json({
+    //   status: 200,
+    //   body: { works },
+    // });
+    return new Response(JSON.stringify(works), { status: 200 });
   } catch (e) {
     console.error(e);
     return NextResponse.json({

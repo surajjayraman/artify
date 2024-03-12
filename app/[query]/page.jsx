@@ -1,8 +1,10 @@
+"use client";
 import Loader from "@components/Loader";
 import Navbar from "@components/Navbar";
 import WorkList from "@components/WorkList";
 import { useParams } from "next/navigation";
-import React, { use, useState } from "react";
+import React, { useEffect, useState } from "react";
+import "@styles/Search.scss";
 
 const SearchPage = () => {
   const { query } = useParams();
@@ -19,7 +21,8 @@ const SearchPage = () => {
           },
         });
         const data = await response.json();
-        setWorkList(data.body.works);
+        console.log(`search data`, data);
+        setWorkList(data);
         setLoading(false);
       } catch (e) {
         console.error(e);
@@ -33,6 +36,7 @@ const SearchPage = () => {
   ) : (
     <>
       <Navbar />
+      <h1 className="title-list">{query} result(s)</h1>
       <WorkList data={workList} />
     </>
   );
