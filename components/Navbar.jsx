@@ -57,7 +57,7 @@ const Navbar = () => {
         )}
         {dropDownMenu && user && (
           <div className="navbar_right_accountmenu">
-            <Link href="/wishlist">Wishlist </Link>
+            <Link href="/wishlist">Wishlist</Link>
             <Link href="/cart">Cart</Link>
             <Link href="/order">Order</Link>
             <Link href="/shop">Your Shop</Link>

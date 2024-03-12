@@ -5,6 +5,7 @@ import {
   ArrowBackIosNew,
   ArrowForwardIos,
   Edit,
+  Favorite,
   FavoriteBorder,
   ShoppingCart,
 } from "@mui/icons-material";
@@ -72,6 +73,30 @@ const WorkDetails = () => {
     setCurrentIndex(work.workPhotoPaths.indexOf(photo));
   };
 
+  // add to wish list
+  const currentWishList = session?.user?.wishList;
+  const isLiked = currentWishList?.find((item) => item?._id === work?._id);
+
+  const addToWishList = async (e) => {
+    e.stopPropagation();
+    try {
+      const response = await fetch(
+        `/api/user/${userId}/wishlist/${work._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+      update({ user: { wishList: data.wishList } });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return loading ? (
     <Loader />
   ) : (
@@ -89,8 +114,27 @@ const WorkDetails = () => {
               <p>Edit</p>
             </div>
           ) : (
-            <div className="save">
-              <FavoriteBorder />
+            <div className="save" onClick={(e) => addToWishList(e)}>
+              {isLiked ? (
+                <Favorite
+                  sx={{
+                    borderRadius: "50%",
+                    backgroundColor: "white",
+                    color: "red",
+                    padding: "5px",
+                    fontSize: "30px",
+                  }}
+                />
+              ) : (
+                <FavoriteBorder
+                  sx={{
+                    borderRadius: "50%",
+                    backgroundColor: "white",
+                    padding: "5px",
+                    fontSize: "30px",
+                  }}
+                />
+              )}
               <p>Save</p>
             </div>
           )}

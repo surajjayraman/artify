@@ -52,7 +52,7 @@ const WorkCard = ({ work }) => {
 
   // Add to wish list
   const currentWishList = session?.user?.wishList;
-  const isLiked = currentWishList?.find((item) => item?._id === work._id);
+  const isLiked = currentWishList?.find((item) => item?._id === work?._id);
 
   const addToWishList = async (e) => {
     e.stopPropagation();
@@ -83,7 +83,7 @@ const WorkCard = ({ work }) => {
           className="slider"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {work.workPhotoPaths?.map((photo, index) => (
+          {work?.workPhotoPaths?.map((photo, index) => (
             <div className="slide">
               <img key={index} src={photo} alt={work.title} />
               <div
@@ -110,20 +110,20 @@ const WorkCard = ({ work }) => {
       </div>
       <div className="info">
         <div>
-          <h3>{work.title}</h3>
+          <h3>{work?.title}</h3>
           <div className="creator">
-            <img src={work.creator?.profileImagePath} alt="creator" />
-            <span>{work.creator?.username}</span> in{" "}
-            <span>{work.category}</span>
+            <img src={work?.creator?.profileImagePath} alt="creator" />
+            <span>{work?.creator?.username}</span> in{" "}
+            <span>{work?.category}</span>
           </div>
         </div>
         <div className="price">
           <span>$</span>
-          {work.price}
+          {work?.price}
         </div>
       </div>
 
-      {loggedInUserId === work.creator?._id ? (
+      {loggedInUserId === work?.creator?._id ? (
         <div className="icon">
           <Delete
             sx={{

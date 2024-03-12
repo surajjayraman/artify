@@ -5,7 +5,7 @@ const WorkList = ({ data }) => {
   return (
     <div className="work-list">
       {data?.map((work) => (
-        <WorkCard key={work._id} work={work} />
+        <WorkCard key={work?._id} work={work} />
       ))}
     </div>
   );
