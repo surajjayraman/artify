@@ -2,26 +2,52 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
-export default async function handler(req, res) {
+export const POST = async (req, res) => {
   if (req.method === "POST") {
+    const { cart, userId } = await req.json();
     try {
       const params = {
-        line_items: [
+        submit_type: "pay",
+        mode: "payment",
+        payment_method_types: ["card"],
+        billing_address_collection: "auto",
+        shipping_options: [
           {
-            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-            price: "{{PRICE_ID}}",
-            quantity: 1,
+            shipping_rate: "shr_1Ou08qCPf7IPMT905vAxIHJ0",
+          },
+          {
+            shipping_rate: "shr_1Ou07HCPf7IPMT90o6MsAAlZ",
           },
         ],
+        line_items: cart?.map((item) => {
+          return {
+            price_data: {
+              currency: "cad",
+              product_data: {
+                name: item.title,
+                images: [`${req.headers.get("origin")}/${item.image}`],
+                metadata: {
+                  productId: item.workId,
+                },
+              },
+              unit_amount: item.price * 100,
+            },
+            quantity: item.quantity,
+          };
+        }),
+        client_reference_id: userId,
         mode: "payment",
-        success_url: `${req.headers.origin}/?success=true`,
-        cancel_url: `${req.headers.origin}/?canceled=true`,
+        success_url: `${req.headers.get("origin")}/?success`,
+        cancel_url: `${req.headers.get("origin")}/?canceled`,
       };
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create(params);
-      res.redirect(303, session.url);
+      return new Response(JSON.stringify(session), { status: 200 });
     } catch (err) {
-      res.status(err.statusCode || 500).json(err.message);
+      console.log(err);
+      return new Response("Failed to checkout", {
+        status: 500,
+      });
     }
   } else {
     res.setHeader("Allow", "POST");

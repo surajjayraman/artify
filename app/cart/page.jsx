@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@components/Navbar";
+import getStripe from "@lib/getStripe";
 import {
   AddCircle,
   ArrowCircleLeft,
@@ -8,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import "@styles/Cart.scss";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 const Cart = () => {
   const { data: session, update } = useSession();
   const cart = session?.user?.cart;
@@ -56,6 +58,34 @@ const Cart = () => {
   };
 
   const subTotal = calcSubtotal(cart);
+
+  const handleCheckout = async () => {
+    const stripe = await getStripe();
+    const response = await fetch("/api/stripe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cart, userId }),
+    });
+
+    if (response.statusCode === 500) {
+      return;
+    }
+    const data = await response.json();
+
+    toast.loading("Redirecting to checkout...");
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: data.id,
+    });
+
+    if (result.error) {
+        console.log(result.error.message);
+        toast.error("Failed to redirect to checkout");
+    }
+    console.log(`checkout session: ${JSON.stringify(data)}`);
+  };
 
   return (
     <>
@@ -121,7 +151,7 @@ const Cart = () => {
                   <ArrowCircleLeft />
                   Continue Shopping
                 </a>
-                <button>CHECK OUT NOW</button>
+                <button onClick={handleCheckout}>CHECK OUT NOW</button>
               </div>
             </div>
           )}
