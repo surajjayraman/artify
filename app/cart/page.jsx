@@ -1,6 +1,12 @@
 "use client";
 import Navbar from "@components/Navbar";
-import { AddCircle, Remove, RemoveCircle } from "@mui/icons-material";
+import {
+  AddCircle,
+  ArrowCircleLeft,
+  Delete,
+  Remove,
+  RemoveCircle,
+} from "@mui/icons-material";
 import "@styles/Cart.scss";
 import { useSession } from "next-auth/react";
 const Cart = () => {
@@ -21,6 +27,11 @@ const Cart = () => {
     update({ user: { cart: data } });
   };
 
+  const calcSubtotal = (cart) => {
+    return cart?.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+  const subTotal = calcSubtotal(cart);
+
   return (
     <>
       <Navbar />
@@ -29,7 +40,7 @@ const Cart = () => {
           <div className="top">
             <h1>Your Cart</h1>
             <h2>
-              Subtotal: <span>$300</span>
+              Subtotal: <span>${subTotal}</span>
             </h2>
           </div>
 
@@ -64,40 +75,26 @@ const Cart = () => {
                         cursor: "pointer",
                       }}
                     />
-                    <button
-                      onClick={() => {
-                        const newCart = cart.map((cartItem) => {
-                          if (cartItem._id === item._id) {
-                            cartItem.quantity -= 1;
-                          }
-                          return cartItem;
-                        });
-                        updateCart(newCart);
-                      }}
-                    >
-                      -
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      onClick={() => {
-                        const newCart = cart.map((cartItem) => {
-                          if (cartItem._id === item._id) {
-                            cartItem.quantity += 1;
-                          }
-                          return cartItem;
-                        });
-                        updateCart(newCart);
-                      }}
-                    >
-                      +
-                    </button>
+                  </div>
+                  <div className="price">
+                    <h2>${item.quantity * item.price}</h2>
+                    <p>${item.price} / each</p>
+                  </div>
+                  <div className="remove">
+                    <Delete sx={{ cursor: "pointer" }} />
                   </div>
                 </div>
               ))}
+
+              <div className="bottom">
+                <a href="/">
+                  <ArrowCircleLeft />
+                  Continue Shopping
+                </a>
+                <button>CHECK OUT NOW</button>
+              </div>
             </div>
           )}
-
-          <div className="bottom"></div>
         </div>
       </div>
     </>
