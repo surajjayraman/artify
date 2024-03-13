@@ -4,7 +4,6 @@ import {
   AddCircle,
   ArrowCircleLeft,
   Delete,
-  Remove,
   RemoveCircle,
 } from "@mui/icons-material";
 import "@styles/Cart.scss";
@@ -30,6 +29,27 @@ const Cart = () => {
   const calcSubtotal = (cart) => {
     return cart?.reduce((total, item) => total + item.price * item.quantity, 0);
   };
+
+  const increaseQty = (cartItem) => {
+    const newCart = cart?.map((item) => {
+      if (item.workId === cartItem.workId) {
+        item.quantity += 1;
+      }
+      return item;
+    });
+    updateCart(newCart);
+  };
+
+  const decreaseQty = (cartItem) => {
+    const newCart = cart?.map((item) => {
+      if (item.workId === cartItem.workId && item.quantity > 1) {
+        item.quantity -= 1;
+      }
+      return item;
+    });
+    updateCart(newCart);
+  };
+
   const subTotal = calcSubtotal(cart);
 
   return (
@@ -66,6 +86,7 @@ const Cart = () => {
                         color: "grey",
                         cursor: "pointer",
                       }}
+                      onClick={() => increaseQty(item)}
                     />
                     <h3>{item.quantity}</h3>
                     <RemoveCircle
@@ -74,6 +95,7 @@ const Cart = () => {
                         color: "grey",
                         cursor: "pointer",
                       }}
+                      onClick={() => decreaseQty(item)}
                     />
                   </div>
                   <div className="price">
