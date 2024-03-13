@@ -50,6 +50,11 @@ const Cart = () => {
     updateCart(newCart);
   };
 
+  const removeFromCart = (cartItem) => {
+    const newCart = cart?.filter((item) => item.workId !== cartItem.workId);
+    updateCart(newCart);
+  };
+
   const subTotal = calcSubtotal(cart);
 
   return (
@@ -103,7 +108,10 @@ const Cart = () => {
                     <p>${item.price} / each</p>
                   </div>
                   <div className="remove">
-                    <Delete sx={{ cursor: "pointer" }} />
+                    <Delete
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => removeFromCart(item)}
+                    />
                   </div>
                 </div>
               ))}
