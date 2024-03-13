@@ -27,6 +27,8 @@ const Navbar = () => {
     }
   };
 
+  const cart = user?.cart;
+
   return (
     <div className="navbar">
       <a href="/">
@@ -47,7 +49,7 @@ const Navbar = () => {
         {user && (
           <a href="/cart" className="cart">
             <ShoppingCart sx={{ color: "grey" }} />
-            Cart <span>{2}</span>
+            Cart <span>({cart?.length})</span>
           </a>
         )}
         <button
