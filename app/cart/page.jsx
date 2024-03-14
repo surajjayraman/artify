@@ -81,10 +81,9 @@ const Cart = () => {
     });
 
     if (result.error) {
-        console.log(result.error.message);
-        toast.error("Failed to redirect to checkout");
+      console.log(result.error.message);
+      toast.error("Failed to redirect to checkout");
     }
-    console.log(`checkout session: ${JSON.stringify(data)}`);
   };
 
   return (
