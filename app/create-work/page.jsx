@@ -36,7 +36,7 @@ const CreateWork = () => {
         body: newWorkForm,
       });
       if (response.ok) {
-        router.push("/shop");
+        router.push(`/shop?id=${session?.user?._id}`);
       }
     } catch (error) {
       console.error(`Publish work failed: ${error.message}`);

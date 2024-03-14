@@ -12,32 +12,39 @@ const Shop = () => {
   const { data: session } = useSession();
   const loggedInUserId = session?.user?._id;
 
-  const searchParams = useSearchParams;
+  const searchParams = useSearchParams();
+  const profileId = searchParams.get("id");
   const [workList, setWorkList] = useState([]);
-  const [user, setUser] = useState({});
+  const [profile, setProfile] = useState({});
 
   useEffect(() => {
     const getWorkList = () => {
-      if (loggedInUserId) {
-        fetch(`/api/user/${loggedInUserId}/shop`)
+      if (profileId) {
+        fetch(`/api/user/${profileId}/shop`)
           .then((res) => res.json())
           .then((data) => {
             console.log(`Shop data:`, data);
-            setUser(data.user);
+            setProfile(data.user);
             setWorkList(data.workList);
             setLoading(false);
           });
       }
     };
     getWorkList();
-  }, [loggedInUserId]);
+  }, [profileId]);
 
   return loading ? (
     <Loader />
   ) : (
     <>
       <Navbar />
-      {loggedInUserId && <h1 className="title-list">Your Works</h1>}
+      {loggedInUserId === profileId && (
+        <h1 className="title-list">Your Works</h1>
+      )}
+      {loggedInUserId !== profileId && (
+        <h1 className="title-list">{profile.username}'s Works</h1>
+      )}
+
       <WorkList data={workList} />
     </>
   );

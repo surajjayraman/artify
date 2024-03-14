@@ -78,7 +78,7 @@ const Navbar = () => {
             <Link href="/wishlist">Wishlist</Link>
             <Link href="/cart">Cart</Link>
             <Link href="/order">Order</Link>
-            <Link href="/shop">Your Shop</Link>
+            <Link href={`/shop?id=${user?._id}`}>Your Shop</Link>
             <Link href="/create-work">Sell Your Work</Link>
             <a onClick={handleLogOut}>Log Out</a>
           </div>

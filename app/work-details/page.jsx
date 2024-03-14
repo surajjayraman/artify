@@ -214,7 +214,13 @@ const WorkDetails = () => {
         </div>
         <hr />
         <div className="profile">
-          <img src={work.creator?.profileImagePath} alt="profile" />
+          <img
+            src={work.creator?.profileImagePath}
+            alt="profile"
+            onClick={() => {
+              router.push(`/shop?id=${work.creator?._id}`);
+            }}
+          />
           <h3>Created by {work.creator?.username}</h3>
         </div>
         <hr />

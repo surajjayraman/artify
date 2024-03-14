@@ -2,6 +2,7 @@
 import Form from "@components/Form";
 import Loader from "@components/Loader";
 import Navbar from "@components/Navbar";
+import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,6 +12,8 @@ const UpdateWork = () => {
   const searchParams = useSearchParams();
   const workId = searchParams.get("id");
   const router = useRouter();
+  const { data: session } = useSession();
+
   const [work, setWork] = useState({
     category: "",
     title: "",
@@ -61,7 +64,7 @@ const UpdateWork = () => {
         body: updateWorkForm,
       });
       if (response.ok) {
-        router.push("/shop");
+        router.push(`/shop?id=${session?.user?._id}`);
       }
     } catch (error) {
       console.error(`Updatework failed: ${error.message}`);
