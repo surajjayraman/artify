@@ -47,7 +47,7 @@ export const POST = async (req, res) => {
       const amountPaid = session.amount_total / 100;
       const orderData = {
         id: session.payment_intent,
-        userId,
+        user: userId,
         orderItems,
         amountPaid,
       };
@@ -60,6 +60,6 @@ export const POST = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ received: false }), { status: 500 });
+    return new Response("Failed to create the order", { status: 500 });
   }
 };
