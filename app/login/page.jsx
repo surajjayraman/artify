@@ -1,5 +1,5 @@
 "use client";
-import "@styles/login.scss";
+import "@styles/Login.scss";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
