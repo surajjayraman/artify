@@ -17,10 +17,6 @@ const Feed = () => {
         setWorkList(data.body);
         setLoading(false);
       }
-      if (response.status === 500) {
-        // retry
-        getWorkList();
-      }
     };
     getWorkList();
   }, [selectedCategory]);
