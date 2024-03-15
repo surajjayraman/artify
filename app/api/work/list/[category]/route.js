@@ -24,6 +24,7 @@ export const GET = async (req, { params }) => {
       status: 200,
       body: workList,
     });
+    
   } catch (error) {
     console.error(error);
     return NextResponse.json({
