@@ -1,5 +1,5 @@
 module.exports = {
   experimental: {
-    missingSuspenseWithCSRBailout: true,
+    missingSuspenseWithCSRBailout: false,
   },
 };
