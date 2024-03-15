@@ -5,6 +5,7 @@ import WorkList from "@components/WorkList";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Suspense } from "react";
 import "@styles/Shop.scss";
 
 const Shop = () => {
@@ -37,15 +38,17 @@ const Shop = () => {
     <Loader />
   ) : (
     <>
-      <Navbar />
-      {loggedInUserId === profileId && (
-        <h1 className="title-list">Your Works</h1>
-      )}
-      {loggedInUserId !== profileId && (
-        <h1 className="title-list">{profile.username}'s Works</h1>
-      )}
+      <Suspense>
+        <Navbar />
+        {loggedInUserId === profileId && (
+          <h1 className="title-list">Your Works</h1>
+        )}
+        {loggedInUserId !== profileId && (
+          <h1 className="title-list">{profile.username}'s Works</h1>
+        )}
 
-      <WorkList data={workList} />
+        <WorkList data={workList} />
+      </Suspense>
     </>
   );
 };
