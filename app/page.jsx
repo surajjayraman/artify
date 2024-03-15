@@ -1,10 +1,14 @@
+"use client";
 import Feed from "@components/Feed";
 import Navbar from "@components/Navbar";
+import { Suspense } from "react";
 const Home = () => {
   return (
     <>
-      <Navbar />
-      <Feed />
+      <Suspense>
+        <Navbar />
+        <Feed />
+      </Suspense>
     </>
   );
 };
