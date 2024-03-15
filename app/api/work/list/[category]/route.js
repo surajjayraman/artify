@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@mongodb/database";
-import Work from "@models/Work";
+import Work from "../../../../../models/Work";
 import { NextResponse } from "next/server";
 
 export const GET = async (req, { params }) => {
