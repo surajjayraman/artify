@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Suspense } from "react";
 
 const UpdateWork = () => {
   const [loading, setLoading] = useState(true);
@@ -74,13 +75,15 @@ const UpdateWork = () => {
     <Loader />
   ) : (
     <>
-      <Navbar />
-      <Form
-        type="Edit"
-        work={work}
-        setWork={setWork}
-        handleSubmit={handleSubmit}
-      />
+      <Suspense>
+        <Navbar />
+        <Form
+          type="Edit"
+          work={work}
+          setWork={setWork}
+          handleSubmit={handleSubmit}
+        />
+      </Suspense>
     </>
   );
 };
