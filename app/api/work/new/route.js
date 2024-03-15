@@ -24,7 +24,7 @@ export async function POST(req) {
       const buffer = Buffer.from(bytes);
       const photoPath = `/Users/lighthouse/artify/public/uploads/${photo.name}`;
       await writeFile(photoPath, buffer);
-      workPhotoPaths.push(`uploads/${photo.name}`);
+      workPhotoPaths.push(`/uploads/${photo.name}`);
     }
     // create new work
     const newWork = new Work({

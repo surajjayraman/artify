@@ -1,5 +1,5 @@
-// import mongoose from "mongoose";
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+// const mongoose = require("mongoose");
 
 let isConnected = false; // Track the connection
 

@@ -1,7 +1,7 @@
 import "@styles/WorkList.scss";
 import WorkCard from "./WorkCard";
 import Loader from "./Loader";
-const WorkList = ({ data }) => {
+const WorkList = ({ data = [] }) => {
   console.log(`data`, data);
   return !data ? (
     <Loader />
