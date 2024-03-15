@@ -15,12 +15,12 @@ const Feed = () => {
       const data = await response.json();
       if (response.status === 200) {
         setWorkList(data.body);
+        setLoading(false);
       }
       if (response.status === 500) {
         // retry
         getWorkList();
       }
-      setLoading(false);
     };
     getWorkList();
   }, [selectedCategory]);
