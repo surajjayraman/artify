@@ -1,10 +1,10 @@
 import { Schema, model, models } from "mongoose";
-
+import User from '@models/User';
 const WorkSchema = new Schema(
   {
     creator: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: User,
     },
     category: {
       type: String,
